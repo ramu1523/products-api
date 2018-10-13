@@ -1,0 +1,16 @@
+spring.profiles.active: local
+
+redSkyAPI.url: https://redsky.target.com/v2/pdp/tcin/{id}?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics
+management.endpoints.web.base-path: /
+management.endpoint.health.show-details: ALWAYS
+allow.endpoints: "/health"
+mongo.database: myretail
+mongo.datasource.username: mongouser1
+mongo.datasource.password: green123
+mongo.uri: ds027699.mlab.com:27699/myretail
+---
+spring.profiles: local
+#server.port: 8082
+---
+spring.profiles: dev
+
