@@ -1,0 +1,164 @@
+{
+  "swagger": "2.0",
+  "info": {
+	"description": "Custom description for API's",
+	"version": "API TOS",
+	"title": "REST API",
+	"termsOfService": "Terms of service",
+	"contact": {
+	  "name": "ramu1523@gmail.com"
+	}
+  },
+  "host": "localhost:8080",
+  "basePath": "/myretail/v1",
+  "paths": {
+	"/products/{product_id}": {
+	  "get": {
+		"produces": [
+		  "application/json"
+		],
+		"parameters": [
+		  {
+			"in": "path",
+			"name": "product_id",
+			"required": true,
+			"description": "product id",
+			"schema": {
+			  "type": "number",
+			  "minimum": 0.1
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"description": "OK",
+			"schema": {
+			  "type": "object",
+			  "items": {
+				"$ref": "#/definitions/products-api-response_def"
+			  }
+			}
+		  },
+		  "400": {
+			"description": "Bad Request"
+		  },
+		  "401": {
+			"description": "Unauthorized"
+		  },
+		  "403": {
+			"description": "Forbidden"
+		  },
+		  "413": {
+			"description": "Payload Too Large"
+		  },
+		  "500": {
+			"description": "Internal Server Error"
+		  }
+		}
+	  }
+	},
+	"/products": {
+	  "put": {
+		"consumes": [
+		  "application/json"
+		],
+		"produces": [
+		  "application/json"
+		],
+		"parameters": [
+		  {
+			"in": "body",
+			"name": "product",
+			"description": "Product to update Price",
+			"schema": {
+			  "$ref": "#/definitions/products-api-request_def"
+			}
+		  }
+		],
+		"responses": {
+		  "201": {
+			"description": "OK",
+			"schema": {
+			  "type": "object",
+			  "items": {
+				"$ref": "#/definitions/products-api-response_def"
+			  }
+			}
+		  },
+		  "400": {
+			"description": "Bad Request"
+		  },
+		  "401": {
+			"description": "Unauthorized"
+		  },
+		  "403": {
+			"description": "Forbidden"
+		  },
+		  "413": {
+			"description": "Payload Too Large"
+		  },
+		  "500": {
+			"description": "Internal Server Error"
+		  }
+		}
+	  }
+	}
+  },
+  "definitions": {
+	"products-api-request_def": {
+	  "type": "object",
+	  "properties": {
+		"id": {
+		  "type": "number"
+		},
+		"current_price": {
+		  "type": "object",
+		  "properties": {
+			"value": {
+			  "type": "number"
+			},
+			"currency_code": {
+			  "type": "string",
+			  "enum": [
+				"USD",
+				"GBP",
+				"INR",
+				"AUD",
+				"CAD"
+			  ]
+			}
+		  }
+		}
+	  }
+	},
+	"products-api-response_def": {
+	  "type": "object",
+	  "properties": {
+		"id": {
+		  "type": "number"
+		},
+		"name": {
+		  "type": "string"
+		},
+		"current_price": {
+		  "type": "object",
+		  "properties": {
+			"value": {
+			  "type": "number"
+			},
+			"currency_code": {
+			  "type": "string",
+			  "enum": [
+				"USD",
+				"GBP",
+				"INR",
+				"AUD",
+				"CAD"
+			  ]
+			}
+		  }
+		}
+	  }
+	}
+  }
+}

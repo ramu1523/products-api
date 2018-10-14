@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/myretail/v1/")
+@RequestMapping("/myretail/v1")
 public class ProductController {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
@@ -28,7 +28,7 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
-	@RequestMapping(value="products/{product_id}", method = RequestMethod.GET)
+	@RequestMapping(value="/products/{product_id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> getProductData(@PathVariable("product_id") Long productId) throws Exception
 	{
 		LOGGER.info("product id:"+productId);
@@ -36,7 +36,7 @@ public class ProductController {
 		return ResponseEntity.ok(productResponse);
 	}
 	
-	@RequestMapping(value="products", method = RequestMethod.PUT)
+	@RequestMapping(value="/products", method = RequestMethod.PUT)
 	public ResponseEntity<Object> updateProductPrice(@RequestBody Product product) {
 		Product productResponse = null;
 		if(isValidProductPrice(product.getCurrentPrice().getPrice())) {

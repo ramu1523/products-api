@@ -21,16 +21,22 @@ public class RedskyProductDAO {
 	
 	private final Logger LOGGER = LoggerFactory.getLogger(RedskyProductDAO.class);
 	
-	RestTemplate restTemplate;
 	
 	@Value("${redSkyAPI.url}")
 	private String redskyAPIEndpoint;
 	
-	@Autowired
-	RedskyProductDAO(RestTemplateBuilder restTemplateBuilder)
-	{
-		this.restTemplate = restTemplateBuilder.build();
+	public RestTemplate getRestTemplate() {
+		if (restTemplate == null) {
+			restTemplate = new RestTemplate();
+		}
+		return restTemplate;
 	}
+	
+	public void setRestTemplate(RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
+	
+	private RestTemplate restTemplate;
 	
 	@Retryable(value = RedSkyAPIException.class, backoff = @Backoff(delay = 1000, multiplier = 2))
 	public RedskyProductDetail getProductDetails(Long id) {
@@ -38,8 +44,7 @@ public class RedskyProductDAO {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		try {
-			redskyProduct = this.restTemplate.getForObject(redskyAPIEndpoint, RedskyProductDetail.class, id);
-		   // int i = 1/0;
+			redskyProduct = getRestTemplate().getForObject(redskyAPIEndpoint, RedskyProductDetail.class, id);
 		} catch(HttpClientErrorException.NotFound ex) {
 			throw  new AppException(ex.getMessage());
 		}catch(Exception ex1){

@@ -34,7 +34,13 @@ public class ProductDAO {
 	@Retryable(value = AppException.class, backoff = @Backoff(delay = 1000, multiplier = 2))
 	public Product getProductData(Long id)
 	{
-		Product product = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)),Product.class,"product");
+		Product product;
+		try {
+			product = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), Product.class, "product");
+			LOGGER.info("ProductDAO --> inside getProductData method");
+		}catch(Exception ex1){
+			throw new AppException("Mongo DB Error: "+ ex1.getMessage());
+		}
 		return  product;
 	}
 	
@@ -46,9 +52,15 @@ public class ProductDAO {
 	@Retryable(value = AppException.class, backoff = @Backoff(delay = 1000, multiplier = 2))
 	public Product updateProductPrice(Product product)
 	{
-		UpdateResult updateResult =  mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(product.getId())),
-		//Update.update("tcinGroups.$.tcins",tcinGroup.getTcins()),UserTcinGroups.class);
-		Update.update("currentPrice.value",product.getCurrentPrice().getPrice()),Product.class);
+		UpdateResult updateResult;
+		try {
+			 updateResult = mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(product.getId())),
+					//Update.update("tcinGroups.$.tcins",tcinGroup.getTcins()),UserTcinGroups.class);
+			Update.update("currentPrice.value", product.getCurrentPrice().getPrice()), Product.class);
+			LOGGER.info("ProductDAO --> inside updateProductPrice method");
+		}catch(Exception ex1){
+			throw new AppException("Mongo DB Error: "+ ex1.getMessage());
+		}
 		if(updateResult.getMatchedCount() == 1)
 		{
 			Product updatedProduct = getProductData(product.getId());

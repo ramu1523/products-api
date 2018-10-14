@@ -20,6 +20,7 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin : 'cobertura'
+apply plugin : 'jacoco'
 
 
 group = 'com.tgt.myretail.products'
@@ -49,8 +50,26 @@ dependencies {
 
 }
 
+jacocoTestReport {
+	reports {
+		csv.enabled false
+		xml.enabled false
+		html {
+			enabled true
+			destination file("$buildDir/reports/jacoco")
+		}
+	}
+	executionData(test)
+}
+tasks.build.dependsOn(jacocoTestReport)
+
 test {
 	testLogging {
 		events "passed", "skipped", "failed", "standardError"
+	}
+	jacoco{
+		append = false
+		destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+		classDumpDir = file("$buildDir/jacoco/classpathdumps")
 	}
 }
