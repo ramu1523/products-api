@@ -12,3 +12,6 @@ docker rmi $(docker images -a -q)
 docker rm $(docker ps -a -f status=exited -q)
 docker run --name productsapi -p 8080:8080 -d products-api
 
+FeignClient Setup Reference:
+https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html
+
