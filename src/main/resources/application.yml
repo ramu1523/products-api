@@ -6,7 +6,7 @@ management.endpoint.health.show-details: ALWAYS
 allow.endpoints: "/health"
 mongo.database: myretail
 mongo.datasource.username: mongouser1
-mongo.datasource.password: green123
+mongo.datasource.password: ########
 mongo.uri: ds027699.mlab.com:27699/myretail
 ---
 spring.profiles: local
